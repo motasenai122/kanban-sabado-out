@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanban Pro | Gestão Inteligente</title>
+  <!-- Google Fonts: Plus Jakarta Sans para tipografia moderna e premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Barra de Navegação Premium com Efeito Vidro (Glassmorphism) -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="brand-icon">⚡</span>
+        <span class="brand-text">Kanban<span class="brand-highlight">Pro</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active">
+          <span class="nav-icon">📊</span> Quadro
+        </a>
+        <a href="dashboard.html" class="nav-link">
+          <span class="nav-icon">📈</span> Dashboard
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Cabeçalho com ações principais -->
+  <header class="header">
+    <div class="header-container">
+      <div>
+        <h1>Quadro de Tarefas</h1>
+        <p class="header-subtitle">Organize suas demandas com arrastar e soltar intuitivo</p>
+      </div>
+      <div class="header-actions">
+        <button id="btn-nova-coluna" class="btn btn-secondary">
+          <span>＋</span> Nova Coluna
+        </button>
+        <button id="btn-nova-tarefa" class="btn btn-primary">
+          <span>✨</span> Nova Tarefa
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Container Principal do Kanban com Scroll Suave -->
+  <main class="kanban-wrapper">
+    <div class="kanban-container" id="kanban-columns-container">
+      <!-- Colunas e cartões injetados dinamicamente via script.js -->
+    </div>
+  </main>
+
+  <!-- Modal para Criar / Editar Tarefa -->
+  <div class="modal-overlay" id="modal-tarefa">
+    <div class="modal-content animate-modal">
+      <div class="modal-header">
+        <h3 id="modal-titulo">Nova Tarefa</h3>
+        <button type="button" class="btn-close-modal" onclick="fecharModal(document.getElementById('modal-tarefa'))">✕</button>
+      </div>
+      <form id="form-tarefa">
+        <input type="hidden" id="tarefa-id">
+        
+        <div class="form-group">
+          <label for="tarefa-nome">Título da Tarefa *</label>
+          <input type="text" id="tarefa-nome" required placeholder="Ex: Desenvolver protótipo de UI">
+        </div>
+
+        <div class="form-group">
+          <label for="tarefa-categoria">Categoria *</label>
+          <input type="text" id="tarefa-categoria" list="sugestoes-categorias" required placeholder="Selecione ou crie uma categoria...">
+          <datalist id="sugestoes-categorias">
+            <option value="Trabalho">
+            <option value="Estudos">
+            <option value="Pessoal">
+            <option value="Urgente">
+            <option value="Projetos">
+            <option value="Design">
+          </datalist>
+        </div>
+
+        <div class="form-group">
+          <label for="tarefa-descricao">Descrição Detalhada</label>
+          <textarea id="tarefa-descricao" rows="3" placeholder="Informações complementares sobre a atividade..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="tarefa-prazo">Prazo Limite *</label>
+          <input type="datetime-local" id="tarefa-prazo" required>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancelar-tarefa">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar Tarefa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para Criar Nova Coluna -->
+  <div class="modal-overlay" id="modal-coluna">
+    <div class="modal-content animate-modal">
+      <div class="modal-header">
+        <h3>Nova Coluna</h3>
+        <button type="button" class="btn-close-modal" onclick="fecharModal(document.getElementById('modal-coluna'))">✕</button>
+      </div>
+      <p class="modal-subtitulo">
+        A nova coluna será inserida antes de "Finalizado" mantendo a integridade do fluxo.
+      </p>
+      <form id="form-coluna">
+        <div class="form-group">
+          <label for="coluna-titulo">Nome da Coluna *</label>
+          <input type="text" id="coluna-titulo" required placeholder="Ex: Em Revisão, Homologação...">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancelar-coluna">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Adicionar Coluna</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de Justificativa Obrigatória para Tarefas Concluídas Fora do Prazo -->
+  <div class="modal-overlay" id="modal-justificativa">
+    <div class="modal-content modal-danger animate-modal">
+      <div class="modal-header">
+        <h3 class="alerta-titulo">⚠️ Tarefa Fora do Prazo</h3>
+        <button type="button" class="btn-close-modal" onclick="fecharModal(document.getElementById('modal-justificativa'))">✕</button>
+      </div>
+      <p class="alerta-texto">
+        O prazo limite para esta atividade foi excedido. Para concluir, é obrigatório registrar uma justificativa formal para o histórico.
+      </p>
+      <form id="form-justificativa">
+        <input type="hidden" id="justificativa-tarefa-id">
+
+        <div class="form-group">
+          <label for="texto-justificativa">Nota de Justificativa *</label>
+          <textarea id="texto-justificativa" rows="3" required placeholder="Descreva o motivo da conclusão em atraso..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancelar-justificativa">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Confirmar Conclusão</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

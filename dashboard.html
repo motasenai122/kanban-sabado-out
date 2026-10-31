@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Pro | Análise de Desempenho</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Barra de Navegação Premium -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="brand-icon">⚡</span>
+        <span class="brand-text">Kanban<span class="brand-highlight">Pro</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">
+          <span class="nav-icon">📊</span> Quadro
+        </a>
+        <a href="dashboard.html" class="nav-link active">
+          <span class="nav-icon">📈</span> Dashboard
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Container Principal do Dashboard -->
+  <main class="dashboard-container">
+    
+    <div class="dashboard-title-box">
+      <h1>Painel Executivo de Métricas</h1>
+      <p>Acompanhe em tempo real o status, prazos e a distribuição das demandas por categoria.</p>
+    </div>
+
+    <!-- Grade de Métricas (KPI Cards com Gradientes e Animação) -->
+    <section class="metrics-grid">
+      
+      <!-- Tarefas Pendentes -->
+      <div class="metric-card card-pendentes animate-card" style="animation-delay: 0.05s;">
+        <div class="metric-header">
+          <span class="metric-title">Pendentes</span>
+          <div class="metric-icon-badge badge-blue">⏳</div>
+        </div>
+        <div class="metric-value" id="kpi-pendentes">0</div>
+        <div class="metric-sub">Tarefas na coluna A Fazer</div>
+      </div>
+
+      <!-- Tarefas Em Execução -->
+      <div class="metric-card card-execucao animate-card" style="animation-delay: 0.1s;">
+        <div class="metric-header">
+          <span class="metric-title">Em Execução</span>
+          <div class="metric-icon-badge badge-amber">⚡</div>
+        </div>
+        <div class="metric-value" id="kpi-execucao">0</div>
+        <div class="metric-sub">Em andamento nas etapas ativas</div>
+      </div>
+
+      <!-- Tarefas Concluídas -->
+      <div class="metric-card card-concluidas animate-card" style="animation-delay: 0.15s;">
+        <div class="metric-header">
+          <span class="metric-title">Concluídas</span>
+          <div class="metric-icon-badge badge-green">✅</div>
+        </div>
+        <div class="metric-value" id="kpi-concluidas">0</div>
+        <div class="metric-sub">Tarefas entregues com sucesso</div>
+      </div>
+
+      <!-- Concluídas Fora do Prazo -->
+      <div class="metric-card card-atrasadas animate-card" style="animation-delay: 0.2s;">
+        <div class="metric-header">
+          <span class="metric-title">Fora do Prazo</span>
+          <div class="metric-icon-badge badge-red">⚠️</div>
+        </div>
+        <div class="metric-value" id="kpi-atrasadas">0</div>
+        <div class="metric-sub">Entregues com justificativa</div>
+      </div>
+
+    </section>
+
+    <!-- Seção do Gráfico de Distribuição por Categoria -->
+    <section class="chart-card animate-card" style="animation-delay: 0.25s;">
+      <div class="chart-header">
+        <div>
+          <h2>Distribuição de Tarefas por Categoria</h2>
+          <p>Volume acumulado e percentual representativo de cada grupo de trabalho</p>
+        </div>
+      </div>
+      
+      <div id="chart-container" class="chart-container">
+        <!-- Barras de progresso com animação CSS inseridas via dashboard.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
